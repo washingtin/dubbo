@@ -254,7 +254,7 @@ public abstract class AbstractConfig implements Serializable {
             return null;
         }
 
-        //check config conflict
+        //check config conflict  检查配置冲突
         if (Boolean.FALSE.equals(methodConfig.isReturn()) && (methodConfig.getOnreturn() != null || methodConfig.getOnthrow() != null)) {
             throw new IllegalStateException("method config error : return attribute must be set true when onreturn or onthrow has been set.");
         }
