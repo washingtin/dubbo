@@ -17,39 +17,53 @@
 package org.apache.dubbo.common.timer;
 
 /**
+ *   与Timer返回的TimerTask关联的句柄
  * A handle associated with a {@link TimerTask} that is returned by a
  * {@link Timer}.
  */
 public interface Timeout {
 
     /**
-     * Returns the {@link Timer} that created this handle.
+     *  返回创建些handle的Timer
+     *
+     *  Returns the {@link Timer} that created this handle.
      */
     Timer timer();
 
     /**
-     * Returns the {@link TimerTask} which is associated with this handle.
+     *  返回与此handle关联的TimerTask
+     *
+     *  Returns the {@link TimerTask} which is associated with this handle.
      */
     TimerTask task();
 
     /**
-     * Returns {@code true} if and only if the {@link TimerTask} associated
-     * with this handle has been expired.
+     *  仅当与此handle关联的TimerTask过期才返回true
+     *
+     *  Returns {@code true} if and only if the {@link TimerTask} associated
+     *  with this handle has been expired.
      */
     boolean isExpired();
 
     /**
-     * Returns {@code true} if and only if the {@link TimerTask} associated
-     * with this handle has been cancelled.
+     *  仅当与此handle关联的TimerTask取消才返回true
+     *
+     *  Returns {@code true} if and only if the {@link TimerTask} associated
+     *  with this handle has been cancelled.
      */
     boolean isCancelled();
 
     /**
-     * Attempts to cancel the {@link TimerTask} associated with this handle.
-     * If the task has been executed or cancelled already, it will return with
-     * no side effect.
+     *  尝试取消TimerTask
+     *  如果已经执行或取消，返回结果无影响
      *
-     * @return True if the cancellation completed successfully, otherwise false
+     *  Attempts to cancel the {@link TimerTask} associated with this handle.
+     *  If the task has been executed or cancelled already, it will return with
+     *  no side effect.
+     *
+     *      只有成功取消才返回true，其它情况都返回false
+     *
+     *  @return True if the cancellation completed successfully, otherwise false
      */
     boolean cancel();
 }

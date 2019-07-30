@@ -53,6 +53,8 @@ import static org.apache.dubbo.registry.Constants.CONSUMER_PROTOCOL;
 import static org.apache.dubbo.registry.Constants.PROVIDER_PROTOCOL;
 
 /**
+ *  实现consul的注册中心
+ *
  * registry center implementation for consul
  */
 public class ConsulRegistry extends FailbackRegistry {
@@ -70,6 +72,7 @@ public class ConsulRegistry extends FailbackRegistry {
     // default time-to-live in millisecond
     private static final long DEFAULT_CHECK_PASS_INTERVAL = 16000L;
     // default deregister critical server after
+    // 默认注消后的临界或关键服务器
     private static final String DEFAULT_DEREGISTER_TIME = "20s";
 
     private ConsulClient client;

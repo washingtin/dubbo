@@ -34,39 +34,53 @@ import static org.apache.dubbo.registry.Constants.REGISTRY_RETRY_PERIOD_KEY;
 import static org.apache.dubbo.registry.Constants.REGISTRY_RETRY_TIMES_KEY;
 
 /**
- * AbstractRetryTask
+ *  重试任务静态类
+ *  AbstractRetryTask
  */
 public abstract class AbstractRetryTask implements TimerTask {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
-     * url for retry task
+     *      重试任务的url
+     *
+     *      url for retry task
      */
     protected final URL url;
 
     /**
-     * registry for this task
+     *      此任务的注册表
+     *
+     *      registry for this task
      */
     protected final FailbackRegistry registry;
 
     /**
-     * retry period
+     *      重试周期
+     *
+     *      retry period
      */
     final long retryPeriod;
 
     /**
-     * define the most retry times
+     *      定义最大重试次数
+     *
+     *      define the most retry times
      */
     private final int retryTimes;
 
     /**
-     * task name for this task
+     *      这个任务的名称
+     *
+     *      task name for this task
      */
     private final String taskName;
 
     /**
+     *
      * times of retry.
+     *      重试任务在单线程中执行，因此时间不需要反复无常
+     *
      * retry task is execute in single thread so that the times is not need volatile.
      */
     private int times = 1;
@@ -110,10 +124,14 @@ public abstract class AbstractRetryTask implements TimerTask {
     public void run(Timeout timeout) throws Exception {
         if (timeout.isCancelled() || timeout.timer().isStop() || isCancel()) {
             // other thread cancel this timeout or stop the timer.
+            /**
+             * 其它线程取消或停止此定时器
+             */
+
             return;
         }
         if (times > retryTimes) {
-            // reach the most times of retry.
+            // reach the most times of retry.   大于最大重试次数
             logger.warn("Final failed to execute task " + taskName + ", url: " + url + ", retry " + retryTimes + " times.");
             return;
         }

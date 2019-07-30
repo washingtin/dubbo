@@ -45,21 +45,31 @@ public abstract class AbstractRegistryFactory implements RegistryFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRegistryFactory.class);
 
     // The lock for the acquisition process of the registry
+    /**
+     *      用于注册表获取过程的锁
+     */
     private static final ReentrantLock LOCK = new ReentrantLock();
 
     // Registry Collection Map<RegistryAddress, Registry>
+    /**
+     *      注册集合表
+     */
     private static final Map<String, Registry> REGISTRIES = new HashMap<>();
 
     /**
-     * Get all registries
+     *      获得所有的注册表
      *
-     * @return all registries
+     *      Get all registries
+     *
+     *  @return all registries
      */
     public static Collection<Registry> getRegistries() {
         return Collections.unmodifiableCollection(REGISTRIES.values());
     }
 
     /**
+     *      关闭所有的注册表
+     *
      * Close all created registries
      */
     // TODO: 2017/8/30 to move somewhere else better

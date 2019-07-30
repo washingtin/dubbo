@@ -21,7 +21,9 @@ import org.apache.dubbo.common.extension.Adaptive;
 import org.apache.dubbo.common.extension.SPI;
 
 /**
- * RegistryFactory. (SPI, Singleton, ThreadSafe)
+ *  注册工厂
+ *
+ *  RegistryFactory. (SPI, Singleton, ThreadSafe)
  *
  * @see org.apache.dubbo.registry.support.AbstractRegistryFactory
  */
@@ -29,14 +31,22 @@ import org.apache.dubbo.common.extension.SPI;
 public interface RegistryFactory {
 
     /**
+     *      连接注册表
      * Connect to the registry
      * <p>
+     *      连接注册表需要的约定
      * Connecting the registry needs to support the contract: <br>
+     *      当check=false，连接不会检查；否则当断开连接时抛出exception
      * 1. When the check=false is set, the connection is not checked, otherwise the exception is thrown when disconnection <br>
+     *      支持Url后用username:password的授权认证
      * 2. Support username:password authority authentication on URL.<br>
+     *      支付backup的备选注册表集群地址
      * 3. Support the backup=10.20.153.10 candidate registry cluster address.<br>
+     *
      * 4. Support file=registry.cache local disk file cache.<br>
+     *
      * 5. Support the timeout=1000 request timeout setting.<br>
+     *
      * 6. Support session=60000 session timeout or expiration settings.<br>
      *
      * @param url Registry address, is not allowed to be empty

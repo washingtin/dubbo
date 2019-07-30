@@ -22,7 +22,9 @@ import org.apache.dubbo.common.timer.Timeout;
 import org.apache.dubbo.registry.support.FailbackRegistry;
 
 /**
- * FailedRegisteredTask
+ *  注册失败的任务
+ *
+ *  FailedRegisteredTask
  */
 public final class FailedRegisteredTask extends AbstractRetryTask {
 

@@ -60,7 +60,9 @@ public abstract class FailbackRegistry extends AbstractRegistry {
     private final ConcurrentMap<Holder, FailedNotifiedTask> failedNotified = new ConcurrentHashMap<Holder, FailedNotifiedTask>();
 
     /**
-     * The time in milliseconds the retryExecutor will wait
+     *      retryExecutor将等待的时间(以毫秒为单位)
+     *
+     *      The time in milliseconds the retryExecutor will wait
      */
     private final int retryPeriod;
 

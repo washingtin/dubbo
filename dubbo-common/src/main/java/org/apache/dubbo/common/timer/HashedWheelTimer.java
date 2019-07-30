@@ -37,15 +37,21 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * A {@link Timer} optimized for approximated I/O timeout scheduling.
+ *      为近似I/O超时调度优化的计时器
+ *      A {@link Timer} optimized for approximated I/O timeout scheduling.
  *
  * <h3>Tick Duration</h3>
  * <p>
+ *     对approximated（近似/约等于），这个定时器不按时执行任务。每次的tick（标记）将检查滞后的任务并执行它们
  * As described with 'approximated', this timer does not execute the scheduled
  * {@link TimerTask} on time.  {@link HashedWheelTimer}, on every tick, will
  * check if there are any {@link TimerTask}s behind the schedule and execute
  * them.
  * <p>
+ *  accuracy n. 精确的，准确的
+ *  你可以在构造器里增加或减少精确的标记执行时间
+ *  对于大多数的网络应用，I/O超时不需要那么精确.
+ *  因此默认标记时间是100毫秒，在大多数的情况下不用去更改配置
  * You can increase or decrease the accuracy of the execution timing by
  * specifying smaller or larger tick duration in the constructor.  In most
  * network applications, I/O timeout does not need to be accurate.  Therefore,
@@ -100,7 +106,9 @@ public class HashedWheelTimer implements Timer {
     private static final int WORKER_STATE_SHUTDOWN = 2;
 
     /**
-     * 0 - init, 1 - started, 2 - shut down
+     * 0 - init,
+     * 1 - started,
+     * 2 - shut down
      */
     @SuppressWarnings({"unused", "FieldMayBeFinal"})
     private volatile int workerState;
@@ -117,9 +125,11 @@ public class HashedWheelTimer implements Timer {
     private volatile long startTime;
 
     /**
-     * Creates a new timer with the default thread factory
-     * ({@link Executors#defaultThreadFactory()}), default tick duration, and
-     * default number of ticks per wheel.
+     *  根据默认工厂创建新定时器
+     *
+     *  Creates a new timer with the default thread factory
+     *  ({@link Executors#defaultThreadFactory()}), default tick duration, and
+     *  default number of ticks per wheel.
      */
     public HashedWheelTimer() {
         this(Executors.defaultThreadFactory());
@@ -130,7 +140,7 @@ public class HashedWheelTimer implements Timer {
      * ({@link Executors#defaultThreadFactory()}) and default number of ticks
      * per wheel.
      *
-     * @param tickDuration the duration between tick
+     * @param tickDuration the duration between tick   两个标记之间的时间
      * @param unit         the time unit of the {@code tickDuration}
      * @throws NullPointerException     if {@code unit} is {@code null}
      * @throws IllegalArgumentException if {@code tickDuration} is &lt;= 0
