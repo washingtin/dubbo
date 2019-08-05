@@ -23,6 +23,8 @@ import java.util.List;
 /**
  * RegistryService. (SPI, Prototype, ThreadSafe)
  *
+ *  注册服务。 支持组件， 原始 ， 线程安全
+ *
  * @see com.alibaba.dubbo.registry.Registry
  * @see com.alibaba.dubbo.registry.RegistryFactory#getRegistry(URL)
  */
@@ -39,6 +41,17 @@ public interface RegistryService {
      * 5. Allow URLs which have the same URL but different parameters to coexist,they can't cover each other.<br>
      *
      * @param url  Registration information , is not allowed to be empty, e.g: dubbo://10.20.153.10/com.alibaba.foo.BarService?version=1.0.0&application=kylin
+     */
+    /**
+     *  注册数据，例如： 提供服务， 消费地址， 路由规则， 重写规则 ， 其它数据
+     *  遵循规则：
+     *      1. 当Url设置check=false参数，当注册失败时，异常不会抛出并且在后台重试，因此这个异常将被抛出
+     *      2. 当Url设置dynamic=false，持久化注册.因此，当注册服务出现异常退出时要自动删除
+     *      3. 当Url设置category=routers时，指定存储，默认是providers，并且元数据会被通知到指定的区域
+     *      4. 当提供者重启或网络异常，数据也不会丢
+     *      5. 允许有不同参数Url共存，且互相不影响
+     *
+     * @param url
      */
     void register(URL url);
 
@@ -58,7 +71,8 @@ public interface RegistryService {
      * <p>
      * Subscribing need to support contracts:<br>
      * 1. When the URL sets the check=false parameter. When the registration fails, the exception is not thrown and retried in the background. <br>
-     * 2. When URL sets category=routers, it only notifies the specified classification data. Multiple classifications are separated by commas, and allows asterisk to match, which indicates that all categorical data are subscribed.<br>
+     * 2. When URL sets category=routers, it only notifies the specified classification data. Multiple classifications are separated by commas,
+     *    and allows asterisk to match, which indicates that all categorical data are subscribed.<br>
      * 3. Allow interface, group, version, and classifier as a conditional query, e.g.: interface=com.alibaba.foo.BarService&version=1.0.0<br>
      * 4. And the query conditions allow the asterisk to be matched, subscribe to all versions of all the packets of all interfaces, e.g. :interface=*&group=*&version=*&classifier=*<br>
      * 5. When the registry is restarted and network jitter, it is necessary to automatically restore the subscription request.<br>
